@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Browse from '../views/Browse.vue'
-import Cart from '../views/Cart.vue'
+import BuyFlight from '../views/BuyFlight.vue'
+import MyFlights from '../views/MyFlights.vue'
 
 Vue.use(VueRouter)
 
@@ -13,14 +13,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/browse',
-    name: 'Browse',
-    component: Browse
+    path: '/buyflight',
+    name: 'BuyFlight',
+    component: BuyFlight
   },
   {
-    path: '/cart',
-    name: 'Cart',
-    component: Cart
+    path: '/myflights',
+    name: 'MyFlights',
+    component: MyFlights
   },
 ]
 
