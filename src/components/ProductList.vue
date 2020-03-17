@@ -7,7 +7,7 @@
         <p>{{flight.distance}} miles away</p>
       </div>
       <div class="image">
-        <img :src="'/images/flight_images/'+flight.image_id+'.png'">
+        <img :src="'/images/flight_images/'+flight.image_id+'.jpg'">
       </div>
       <div class="price">
         <h2>${{flight.base_price}}</h2>
@@ -49,13 +49,13 @@ export default {
 .product {
   margin: 10px;
   margin-top: 50px;
-  width: 200px;
+  width: 400;
 }
 
 .product img {
   border: 2px solid #333;
   height: 250px;
-  width: 200px;
+  width: 400px;
   object-fit: cover;
 }
 

@@ -2,7 +2,6 @@
 <div>
   <div class="wrapper">
     <div class="search">
-      <p>Test</p>
       <form class="pure-form">
         <i class="fas fa-search"></i><input v-model="searchText" />
       </form>

@@ -3,7 +3,7 @@
   <div id="menu">
     <div id="brand">
       <router-link to="/">
-        <img src="/images/logo.png">
+        <img src="/images/logo.png" id="logo">
       </router-link>
     </div>
     <div id="side">
@@ -63,6 +63,11 @@
 </script>-->
 
 <style>
+#logo {
+  width: 450px;
+  object-fit: scale-down
+}
+
 * {
   box-sizing: border-box;
 }
