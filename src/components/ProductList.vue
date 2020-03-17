@@ -1,17 +1,17 @@
 <template>
 <div class="wrapper">
   <div class="products">
-    <div class="product" v-for="product in products" :key="product.id">
+    <div class="product" v-for="flight in flights" :key="flight.id">
       <div class="info">
-        <h1>{{product.name}}</h1>
-        <p>{{product.country}}</p>
+        <h1>{{flight.city}}</h1>
+        <p>{{flight.distance}} miles away</p>
       </div>
       <div class="image">
-        <img :src="'/images/products/'+product.image">
+        <img :src="'/images/flight_images/'+flight.image_id+'.png'">
       </div>
       <div class="price">
-        <h2>{{product.price}}</h2>
-        <button @click="addToCart(product)" class="auto">Add to Cart</button>
+        <h2>${{flight.base_price}}</h2>
+        <button @click="addToCart(flight)" class="auto">Add to Cart</button>
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
 export default {
   name: 'ProductList',
   props: {
-    products: Array
+    flights: Array
   },
   methods: {
     addToCart(product) {

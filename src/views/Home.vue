@@ -2,12 +2,13 @@
 <div>
   <div class="wrapper">
     <div class="search">
+      <p>Test</p>
       <form class="pure-form">
         <i class="fas fa-search"></i><input v-model="searchText" />
       </form>
     </div>
   </div>
-  <ProductList :products="products" />
+  <ProductList :flights="flights" />
 </div>
 </template>
 
@@ -25,8 +26,11 @@
       }
     },
     computed: {
-      products() {
-        return this.$root.$data.products.filter(product => product.name.toLowerCase().search(this.searchText.toLowerCase()) >= 0);
+      // products() {
+      //   return this.$root.$data.products.filter(product => product.name.toLowerCase().search(this.searchText.toLowerCase()) >= 0);
+      // },
+      flights() {
+        return this.$root.$data.flights; //filter this later
       }
     },
   }
