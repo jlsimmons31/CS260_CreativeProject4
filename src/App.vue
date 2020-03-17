@@ -2,7 +2,7 @@
 <div id="app">
   <div id="menu">
     <div id="username">
-      <h2>Welcome {{ this.$root.$data.username}}</h2>
+      <h2>Welcome {{this.$root.$data.username}}</h2>
     </div>
     <div id="brand">
       <router-link to="/">

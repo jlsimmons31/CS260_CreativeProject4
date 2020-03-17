@@ -3,11 +3,11 @@
   <div class="wrapper">
     <div class="search">
       <form class="pure-form">
-        <i class="fas fa-search"></i><input v-model="searchText" />
+        <p> from-city</p><input v-model="searchText" />
       </form>
     </div>
   </div>
-  <ProductList :flights="flights" />
+  <ProductList v-if="searchText !== ''" :flights="flights" />
 </div>
 </template>
 
