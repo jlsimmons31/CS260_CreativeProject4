@@ -1,13 +1,20 @@
 <template>
 <div>
-  <div class="wrapper">
-    <div class="search">
-      <form class="pure-form">
-        <p> from-city</p><input v-model="searchText" />
-      </form>
-    </div>
+  <h3>Your paradise is just a few clicks away!</h3>
+  <div class="from-button">
+    <h4 class="form-text">Fly From: </h4>
+      <form class="from-city">
+      <div class="dropdown">
+        <button class="dropbtn">{{startingCity}}</button>
+        <div class="dropdown-content">
+          <a @click="startingCity = 'Salt Lake'">Salt Lake</a>
+          <a @click="startingCity = 'Denver'">Denver</a>
+          <a @click="startingCity = 'Las Vegas'">Las Vegas</a>
+        </div>
+      </div>
+    </form>
   </div>
-  <ProductList v-if="searchText !== ''" :flights="flights" />
+  <ProductList v-if="startingCity === ''" :flights="flights" />
 </div>
 </template>
 
@@ -21,7 +28,7 @@
     },
     data() {
       return {
-        searchText: '',
+        startingCity: 'Salt Lake',
       }
     },
     computed: {
@@ -41,30 +48,63 @@
   align-items: center;
   justify-content: center;
 }
-
-.search {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 50%;
-}
-
 form {
-  display: table;
-  width: 100%;
+display: flex;
+padding: 10px;
+}
+.form-text {
+margin-bottom: -10px;
+}
+.from-button {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
 }
 
-i {
-  display: table-cell;
-  padding-left: 10px;
-  width: 1px;
+.dropbtn {
+  background-color: #d3d3d3;
+  color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
 
-input {
-  display: table-cell;
-  font-size: 20px;
-  border: none !important;
-  box-shadow: none !important;
-  width: 100%;
-  height: 40px;
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: gray;
 }
 </style>
