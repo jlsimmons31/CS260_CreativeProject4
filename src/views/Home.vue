@@ -1,18 +1,29 @@
 <template>
-<div>
-  <h3>Your paradise is just a few clicks away!</h3>
-  <div class="from-button">
-    <h4 class="form-text">Fly From: </h4>
-      <form class="from-city">
-      <div class="dropdown">
-        <button class="dropbtn">{{startingCity}}</button>
-        <div class="dropdown-content">
-          <a @click="startingCity = 'Salt Lake'">Salt Lake</a>
-          <a @click="startingCity = 'Denver'">Denver</a>
-          <a @click="startingCity = 'Las Vegas'">Las Vegas</a>
+<div class="page">
+<h3 class="page-text">Your paradise is just a few clicks away!</h3>
+  <div class="buttons">
+    <div class="from-button">
+      <h4 class="form-text">Fly From: </h4>
+        <form class="from-city">
+        <div class="dropdown">
+          <button class="dropbtn">{{startingCity}}</button>
+          <div class="dropdown-content">
+            <a @click="startingCity = 'Salt Lake'">Salt Lake</a>
+            <a @click="startingCity = 'Denver'">Denver</a>
+            <a @click="startingCity = 'Las Vegas'">Las Vegas</a>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    <div class="to-button"> 
+    <h4 class="form-text">Fly To: </h4>
+      <form>
+        <input class="dropbtn" v-model="endingCity">
+        <div class="dropdown-content" v-for"flight in this.$root.$data.flights" :key="flight.id">
+        <a> {{this.$root.$data.flight.city}}</a>
+        </div>
+      </form>
+    </div>
   </div>
   <ProductList v-if="startingCity === ''" :flights="flights" />
 </div>
@@ -29,12 +40,13 @@
     data() {
       return {
         startingCity: 'Salt Lake',
+        endingCity: "",
       }
     },
     computed: {
-      // products() {
-      //   return this.$root.$data.products.filter(product => product.name.toLowerCase().search(this.searchText.toLowerCase()) >= 0);
-      // },
+      toCity() {
+        return this.$root.$data.flights.city.filter(cityName => cityName.city.toLowerCase().search(this.endingCity.toLowerCase()) >= 0);
+      },
       flights() {
         return this.$root.$data.flights; //filter this later
       }
@@ -43,11 +55,13 @@
 </script>
 
 <style scoped>
-.wrapper {
+.buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
+.page-text {
+  display: flex;
+}
+
 form {
 display: flex;
 padding: 10px;
