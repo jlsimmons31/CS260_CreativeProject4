@@ -16,16 +16,22 @@
       </form>
     </div>
     <div class="to-button"> 
-    <h4 class="form-text">Fly To: </h4>
-      <form>
-        <input class="dropbtn" v-model="endingCity">
-        <div class="dropdown-content" v-for"flight in this.$root.$data.flights" :key="flight.id">
-        <a> {{this.$root.$data.flight.city}}</a>
-        </div>
-      </form>
+    <h4 class="form-text">Fly To:</h4>
+      <!-- <input class="dropbtn" v-model="endingCity">
+      <div class="dropdown-content" v-for="flight in this.$root.$data.flights" :key="flight.id">
+      <a> {{this.$root.$data.flight.city}}</a>
+      </div> -->
+      <input type="text" name="endingCitySearch" v-model="citySearch" autocomplete="off">
+      <br /><br />
+      <div v-for="flight in filteredResults" :key="flight.id">
+        <a @click="selectDestination(flight)" class="flightSearchResult">{{flight.city}}</a>
+      </div>
     </div>
   </div>
   <ProductList v-if="startingCity === ''" :flights="flights" />
+
+  
+  
 </div>
 </template>
 
@@ -41,6 +47,7 @@
       return {
         startingCity: 'Salt Lake',
         endingCity: "",
+        citySearch: "",
       }
     },
     computed: {
@@ -49,12 +56,27 @@
       },
       flights() {
         return this.$root.$data.flights; //filter this later
-      }
+      },
+      filteredResults() { 
+        return this.$root.$data.flights.filter(cityName => cityName.city.toLowerCase().search(this.citySearch.toLowerCase()) >= 0)
+          .slice(0, 5);
+      },
     },
+    methods: {
+      selectDestination(flight) {
+        alert("you chose " + flight.city);
+      }
+    }
   }
 </script>
 
 <style scoped>
+
+.flightSearchResult {
+  color: blue;
+  text-decoration: underline;
+}
+
 .buttons {
   display: flex;
 }
@@ -67,7 +89,7 @@ display: flex;
 padding: 10px;
 }
 .form-text {
-margin-bottom: -10px;
+/* margin-bottom: -10px; */
 }
 .from-button {
 display: flex;
