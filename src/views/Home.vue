@@ -93,7 +93,8 @@
       }
       flight.base_price *= this.priceFactor;
       flight.first_class_price *= this.priceFactor;
-        this.$root.$data.currentFlightBeingPurchased.push(flight);
+      this.$root.$data.currentFlightBeingPurchased.push(flight);
+      this.$root.$data.startingCity = this.startingCity;
       },
     },
     watch: {

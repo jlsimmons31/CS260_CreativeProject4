@@ -8,8 +8,9 @@ Vue.config.productionTip = false
 let data = {
   flights: mock,
   currentFlightBeingPurchased: [],
-  myFlights: [ ],
+  myFlights: [],
   username: "Guest",
+  startingCity: "",
 }
 
 new Vue({
