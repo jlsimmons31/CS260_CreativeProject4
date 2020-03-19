@@ -5,7 +5,7 @@
         <div class="buttons">
           <div class="from-button">
             <h4 class="form-text">Fly From: </h4>
-              <form class="from-city">
+              <form class="from-city" v-on:submit.prevent>
               <div class="dropdown">
                 <button class="dropbtn">{{startingCity}}</button>
                 <div class="dropdown-content">
@@ -38,7 +38,8 @@
                   <p class="flight_details">
                     <strong>Distance: </strong> {{flight.distance}} miles<br />
                     <strong>Economy: </strong> ${{flightPrice(flight.base_price)}}<br />
-                    <strong>First Class: </strong> ${{flightPrice(flight.first_class_price)}}<br /> <!--ADD PRICE FACTORING-->
+                    <strong>First Class: </strong> ${{flightPrice(flight.first_class_price)}}<br />
+                    <small><i>Departs {{computeTimeFromNow(flight.time_to_takeoff)}}</i></small>
                   </p>
                 </div>
               </div>
@@ -53,6 +54,9 @@
 
 <script>
   // import ProductList from "../components/ProductList.vue"
+  //import moment from 'moment'
+  var moment = require('moment');
+
   export default {
     name: 'Home',
     components: {
@@ -64,6 +68,7 @@
         endingCity: "",
         citySearch: "",
         priceFactor: 1.1,
+        moment: require('moment')
       }
     },
     computed: {
@@ -82,19 +87,24 @@
       },
     },
     methods: {
-    flightPrice(seatPrice) {
+      flightPrice(seatPrice) {
         seatPrice *= this.priceFactor;
         return seatPrice.toFixed(2);
       },
       selectDestination(flight) {
-      //to make sure there is only one flight being purchased
-      if (this.$root.$data.currentFlightBeingPurchased.length > 0){
-        this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
-      }
-      flight.base_price *= this.priceFactor;
-      flight.first_class_price *= this.priceFactor;
+        //to make sure there is only one flight being purchased
+        if (this.$root.$data.currentFlightBeingPurchased.length > 0){
+          this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
+        }
+        flight.base_price *= this.priceFactor;
+        flight.first_class_price *= this.priceFactor;
         this.$root.$data.currentFlightBeingPurchased.push(flight);
-      },
+      },      
+      computeTimeFromNow(time) {
+        let t = moment();
+        t.add(time, 'hours');
+        return t.format("ddd h:mmA");
+      }
     },
     watch: {
       startingCity: function price() {
@@ -132,8 +142,8 @@
   cursor: pointer;
 }
 .flight_result img {
-  width: 180px;
-  height: 100px;
+  width: 220px;
+  height: 128px;
   object-fit: cover;
   margin-right: 8px;
 }
