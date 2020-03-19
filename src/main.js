@@ -11,6 +11,7 @@ let data = {
   myFlights: [],
   username: "Guest",
   startingCity: "",
+  seatType: "",
 }
 
 new Vue({
