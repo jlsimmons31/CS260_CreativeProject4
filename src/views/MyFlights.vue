@@ -1,24 +1,20 @@
 <template>
 <div class="wrapper">
-	<div class="cart_products" v-if="this.$root.$data.cart.length > 0">
-		<h2>Shopping Cart</h2>
-		<div v-for="product in this.$root.$data.cart" :key="product.id">
-			<div class="cart_product">
-				<img id="cart_product_image" :src="'/images/products/'+product.image">
-				<div id="cart_product_detail">
-					<h1>{{product.name}}</h1>
-					<p>{{product.country}}</p>
-				</div>
-				<div id="cart_product_price">
-					<h2 class="price">{{product.price}}</h2>
-					<button class="auto" @click="removeFromCart(product)">Remove from Cart</button>
+	<div class="my_flights_list" v-if="this.$root.$data.myFlights.length > 0">
+		<h2>My Flights</h2>
+		<div v-for="flight in this.$root.$data.myFlights" :key="flight.id">
+			<div class="my_flight">
+				<img id="my_flight_image" :src="'/images/flight_images/' + flight.image_id + '.jpg'">
+				<div id="my_flight_detail">
+					<h1>{{flight.city}}</h1>
+					<p>{{flight.distance}} miles</p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div v-else>
-		<h2>Shopping Cart</h2>
-		<h3>Your cart is empty :(<br/><br/>Add some items from the Browse screen to get started.</h3>
+		<h2>My Flights</h2>
+		<h3>You have not purchased any flights.</h3>
 	</div>
 </div>
 </template>
@@ -48,7 +44,7 @@
 		text-align: center;
 	}
 
-	.cart_product {
+	.my_flight {
 		margin: 0 10% 24px 10%;
 		display: grid;
 		grid-template-columns: 1fr 3fr 2fr;
@@ -57,11 +53,11 @@
 		background: #F2921D;
 	}
 
-	.cart_product h1 {
+	.my_flight h1 {
 		font-size: 24px;
 	}
 
-	.cart_product h2 {
+	.my_flight h2 {
 		font-size: 20px;
 	}
 
@@ -82,23 +78,23 @@
 		margin: 8px;
 	}
 
-	.cart_product p {
+	.my_flight p {
 		margin: 0px;
 		font-size: 14px;
 	}
 
-	#cart_product_image {
+	#my_flight_image {
 		height: 160px;	
-		width: 140px;
+		width: 240px;
 		border: 2px solid #333;
 		object-fit: cover;
 	}
 
-	#cart_product_detail {
+	#my_flight_detail {
 		margin-left: 8px;
 	}
 
-	#cart_product_price {
+	#my_flight_price {
 		display: flex;
 		flex-direction: column;
 		align-items: right;
