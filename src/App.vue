@@ -39,9 +39,6 @@
     //   };
     // },
     computed: {
-      numItemsInCart() {
-        return this.$root.$data.cart.length;
-      }
     },
     methods: {
 
