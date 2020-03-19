@@ -28,6 +28,8 @@ export default {
   methods: {
     addFlight() {
     this.$root.$data.myFlights.push(this.$root.$data.currentFlightBeingPurchased[0]);
+    this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
+    this.$root.$data.username = this.firstName;
     }
   },
 }
