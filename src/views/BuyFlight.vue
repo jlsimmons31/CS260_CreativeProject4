@@ -4,6 +4,7 @@
     <h2><u>Flight details</u></h2>
     <p><strong>Flight from: </strong>{{this.$root.$data.startingCity}}</p>
     <p><strong>Flight to: </strong>{{this.$root.$data.currentFlightBeingPurchased[0].city}}</p>
+    <p> Departs at:</p>
     <p><strong>Seat Type:</strong></p>
     <div class="dropdown">
       <button class="dropbtn">{{seatType}}</button>
