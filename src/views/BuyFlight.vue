@@ -4,7 +4,7 @@
     <h2><u>Flight details</u></h2>
     <p><strong>Flight from: </strong>{{this.$root.$data.startingCity}}</p>
     <p><strong>Flight to: </strong>{{this.$root.$data.currentFlightBeingPurchased[0].city}}</p>
-    <p> Departs at:</p>
+    <p> Departs at: {{computeTimeFromNow(this.$root.$data.currentFlightBeingPurchased[0].time_to_takeoff)}}</p>
     <p><strong>Seat Type:</strong></p>
     <div class="dropdown">
       <button class="dropbtn">{{seatType}}</button>
@@ -13,8 +13,9 @@
         <a @click=" seatType= 'First Class'">First Class</a>
        </div>
     </div>
-     <p v-if="seatType === 'Economy'"> <strong>Ticket Price: </strong>${{this.$root.$data.currentFlightBeingPurchased[0].base_price.toFixed(2)}}</p>
-    <p v-else> <strong>Ticket Price: </strong>${{this.$root.$data.currentFlightBeingPurchased[0].first_class_price.toFixed(2)}}</p>
+      <!-- <p v-if="seatType === 'Economy'"> <strong>Ticket Price: </strong>${{this.$root.$data.currentFlightBeingPurchased[0].base_price.toFixed(2)}}</p>
+      <p v-else> <strong>Ticket Price: </strong>${{this.$root.$data.currentFlightBeingPurchased[0].first_class_price.toFixed(2)}}</p> -->
+      <p><strong>Ticket Price: </strong>${{price()}}</p>
 		<br/>
 </div>
   <h3>Before purchasing your flight to {{this.$root.$data.currentFlightBeingPurchased[0].city}} we need just a bit more information about you.</h3>
@@ -31,7 +32,8 @@
 
 
 <script>
-// import ProductList from "../components/ProductList.vue"
+var moment = require('moment');
+
 export default {
   name: 'BuyFlight',
   data() {
@@ -45,11 +47,24 @@ export default {
   },
   methods: {
     addFlight() {
+      this.$root.$data.currentFlightBeingPurchased[0].seatType = this.seatType;
+      this.$root.$data.currentFlightBeingPurchased[0].pricePaid = this.price();
       this.$root.$data.myFlights.push(this.$root.$data.currentFlightBeingPurchased[0]);
       this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
       if (this.firstName !== ""){
         this.$root.$data.username = this.firstName;
       }
+    },
+		computeTimeFromNow(time) {
+			let t = moment();
+			t.add(time, 'hours');
+			return t.format("ddd h:mmA");
+    },
+    price() {
+      if (this.seatType === "Economy")
+        return this.$root.$data.currentFlightBeingPurchased[0].base_price.toFixed(2);
+      else
+        return this.$root.$data.currentFlightBeingPurchased[0].first_class_price.toFixed(2);
     }
   },
 }

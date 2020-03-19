@@ -2,18 +2,20 @@
 <div id="app">
   <header id="menu">
     <div id="side">
-      <router-link to="/buyflight">
+      <!-- <router-link to="/buyflight">
         <div class="menu-item browse">
           <p>(Purchase flight page)</p>
         </div>
-      </router-link>
+      </router-link> -->
       <div class="my-account">
         <p class="name-text"><strong>Welcome {{this.$root.$data.username}}!</strong></p>
-        <router-link to="/myflights">
+        <router-link to="/">Home</router-link>&nbsp;&#8226;&nbsp;
+        <router-link to="/myflights">My Flights</router-link>
+        <!-- <router-link to="/myflights">
           <div class="menu-item">
             <p> My Flights</p>
           </div>
-        </router-link>
+        -->
       </div>
     </div>
      </header>
