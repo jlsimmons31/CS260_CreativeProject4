@@ -92,23 +92,13 @@
         return seatPrice.toFixed(2);
       },
       selectDestination(flight) {
-<<<<<<< HEAD
-      //to make sure there is only one flight being purchased
-      if (this.$root.$data.currentFlightBeingPurchased.length > 0){
-        this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
-      }
-      flight.base_price *= this.priceFactor;
-      flight.first_class_price *= this.priceFactor;
-      this.$root.$data.currentFlightBeingPurchased.push(flight);
-      this.$root.$data.startingCity = this.startingCity;
-      },
-=======
         //to make sure there is only one flight being purchased
         if (this.$root.$data.currentFlightBeingPurchased.length > 0){
           this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
         }
         flight.base_price *= this.priceFactor;
         flight.first_class_price *= this.priceFactor;
+        this.$root.$data.startingCity = this.startingCity;
         this.$root.$data.currentFlightBeingPurchased.push(flight);
       },      
       computeTimeFromNow(time) {
@@ -116,7 +106,6 @@
         t.add(time, 'hours');
         return t.format("ddd h:mmA");
       }
->>>>>>> 4b79f89726b60c5b41a63dfa85b0b9b89a3ead06
     },
     watch: {
       startingCity: function price() {
