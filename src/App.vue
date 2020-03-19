@@ -33,6 +33,11 @@
     components: {
       
     },
+    // data() {
+    //   return {
+    //     currentFlightBeingPurchased: null,
+    //   };
+    // },
     computed: {
       numItemsInCart() {
         return this.$root.$data.cart.length;
