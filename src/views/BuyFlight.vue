@@ -4,6 +4,10 @@
   <form>
     <input type="text" placeholder="First Name" v-model="firstName">
     <input type="text" placeholder="Last Name">
+    <router-link to="/myflights">
+    <button @click="addFlight" >Purchase Flight</button>
+    </router-link>
+
   </form>
 </div>
 </template>
@@ -22,8 +26,10 @@ export default {
     
   },
   methods: {
-    
-  }
+    addFlight() {
+    this.$root.$data.myFlights.push(this.$root.$data.currentFlightBeingPurchased[0]);
+    }
+  },
 }
 </script>
 
