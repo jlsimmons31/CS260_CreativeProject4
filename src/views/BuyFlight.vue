@@ -1,6 +1,10 @@
 <template>
-<div>
-  <p>You want to purchase a flight to {{this.$root.$data.currentFlightBeingPurchased.city}}!</p>
+<div v-if="this.$root.$data.currentFlightBeingPurchased.length > 0">
+  <h3>Before purchasing your flight to {{this.$root.$data.currentFlightBeingPurchased[0].city}} we need just a bit more information about you.</h3>
+  <form>
+    <input type="text" placeholder="First Name" v-model="firstName">
+    <input type="text" placeholder="Last Name">
+  </form>
 </div>
 </template>
 
@@ -9,12 +13,9 @@
 // import ProductList from "../components/ProductList.vue"
 export default {
   name: 'BuyFlight',
-  components: {
-    // ProductList
-  },
   data() {
     return {
-      country: '',
+      firstName: "",
     }
   },
   computed: {

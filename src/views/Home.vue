@@ -18,11 +18,7 @@
           </div>
           <div class="to-button"> 
             <h4 class="form-text">Fly To:</h4>
-              <!-- <input class="dropbtn" v-model="endingCity">
-              <div class="dropdown-content" v-for="flight in this.$root.$data.flights" :key="flight.id">
-              <a> {{this.$root.$data.flight.city}}</a>
-              </div> -->
-              <input type="text" id="destinationCitySearch" v-model="citySearch" autocomplete="off">
+              <input placeholder=" Search a City" type="text" id="destinationCitySearch" v-model="citySearch" autocomplete="off">
               <br /><br />
             </div>
           </div>
@@ -38,11 +34,11 @@
               <div class="flight_result" @click="selectDestination(flight)">
                 <img :src="'/images/flight_images/' + flight.image_id + '.jpg'" >
                 <div>
-                  <p class="flight_city">{{flight.city}}</p>
+                  <p class="flight_city"> <strong>{{flight.city}}</strong></p>
                   <p class="flight_details">
-                    Distance: {{flight.distance}} miles<br />
-                    Economy: ${{flight.base_price}}<br />
-                    First Class: ${{flight.first_class_price}}<br /> <!--ADD PRICE FACTORING-->
+                    <strong>Distance: </strong> {{flight.distance}} miles<br />
+                    <strong>Economy: </strong> ${{flightPrice(flight.base_price)}}<br />
+                    <strong>First Class: </strong> ${{flightPrice(flight.first_class_price)}}<br /> <!--ADD PRICE FACTORING-->
                   </p>
                 </div>
               </div>
@@ -67,6 +63,7 @@
         startingCity: 'Salt Lake',
         endingCity: "",
         citySearch: "",
+        priceFactor: 1.1,
       }
     },
     computed: {
@@ -85,8 +82,31 @@
       },
     },
     methods: {
+    flightPrice(seatPrice) {
+        seatPrice *= this.priceFactor;
+        return seatPrice.toFixed(2);
+      },
       selectDestination(flight) {
-        this.$root.$data.currentFlightBeingPurchased = flight;
+      //to make sure there is only one flight being purchased
+      if (this.$root.$data.currentFlightBeingPurchased.length > 0){
+        this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
+      }
+      flight.base_price *= this.priceFactor;
+      flight.first_class_price *= this.priceFactor;
+        this.$root.$data.currentFlightBeingPurchased.push(flight);
+      },
+    },
+    watch: {
+      startingCity: function price() {
+        if (this.startingCity === "Salt Lake") {
+          this.priceFactor = 1.1;
+        }
+        if (this.startingCity === "Denver") {
+          this.priceFactor = 1;
+        }
+        if (this.startingCity === "Las Vegas") {
+          this.priceFactor = 1.2;
+        }
       }
     }
   }
@@ -120,10 +140,12 @@
 .flight_city {
   margin:0 0 16px 0;
   font-size: 20px;
+  color: black;
 }
 .flight_details {
   margin:0;
   font-size: 18px;
+  color: black;
 }
 
 .search_content {

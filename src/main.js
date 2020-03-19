@@ -7,8 +7,8 @@ Vue.config.productionTip = false
 
 let data = {
   flights: mock,
-  currentFlightBeingPurchased: { city: "(TEST)" },
-  cart: [],
+  currentFlightBeingPurchased: [],
+  myFlights: [],
   username: "Guest",
 }
 
