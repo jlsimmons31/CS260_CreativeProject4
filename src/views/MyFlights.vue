@@ -5,8 +5,7 @@
 		<div class="my_flight" v-for="flight in this.$root.$data.myFlights" :key="flight.id">
 			<img id="my_flight_image" :src="'/images/flight_images/' + flight.image_id + '.jpg'">
 			<div id="my_flight_detail">
-				<h1>{{flight.city}}</h1>
-				<p>{{flight.distance}} miles</p>
+				<p class="my_flight_city">{{flight.city}} - <span>{{flight.distance}} miles</span></p>
 			</div>
 		</div>
 	</div>
@@ -18,7 +17,9 @@
 </template>
 
 <script>	
-  export default {
+var moment = require('moment');
+
+export default {
     name: 'Cart',
     methods: {
 		removeFromCart(product) {
@@ -28,6 +29,11 @@
 					break;
 				}
 			}
+		},		
+		computeTimeFromNow(time) {
+			let t = moment();
+			t.add(time, 'hours');
+			return t.format("ddd h:mmA");
 		}
     }
   }
@@ -53,11 +59,7 @@
 		margin: 8px;
 	}
 
-	.my_flight h1 {
-		font-size: 24px;
-	}
-
-	.my_flight h2 {
+	.my_flight_city {
 		font-size: 20px;
 	}
 
