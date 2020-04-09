@@ -10,7 +10,7 @@
   </div>
   <div v-else-if="purchaseComplete">
     <p>Your purchase has been completed.</p>
-    <router-link to="/">Purchase Another Flight</router-link>
+    <router-link to="/">Purchase Another Flight</router-link><br />
     <router-link to="/myflights">See My Flights</router-link>
   </div>
   <div v-else-if="this.$root.$data.currentFlightBeingPurchased.length > 0">
