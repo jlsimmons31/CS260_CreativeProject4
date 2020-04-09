@@ -1,49 +1,71 @@
 <template>
-<div v-if="this.$root.$data.currentFlightBeingPurchased.length > 0">
-  <div class="flightDetails">
-      <h2><u>Flight details</u></h2>
-      <p><strong>Flight From: </strong>{{this.$root.$data.startingCity}}</p>
-      <p><strong>Flight To: </strong>{{this.$root.$data.currentFlightBeingPurchased[0].city}}</p>
-      <p> <strong>Departs at: </strong>{{computeTimeFromNow(this.$root.$data.currentFlightBeingPurchased[0].time_to_takeoff)}}</p>
-      <p><strong>Ticket Price: </strong>${{price()}}</p>
-      <div class="seat-type">
-        <p class="seat-type-text"><strong>Seat Type: </strong></p>
-        <div class="dropdown">
-          <button class="dropbtn">{{seatType}}</button>
-          <div class="dropdown-content">
-            <a @click=" seatType= 'Economy'">Economy</a>
-            <a @click=" seatType= 'First Class'">First Class</a>
+<div>
+  <div v-if="purchaseInProcess && !purchaseComplete">
+    <img src="images/loading.gif" width=100px height=100px />
+    <p></p>
+  </div>
+  <div v-else-if="purchaseError != ''">
+    <p>Error while purchasing flight: {{purchaseError}}</p>
+    <router-link to="/">Please Try Again</router-link>
+  </div>
+  <div v-else-if="purchaseComplete">
+    <p>Your purchase has been completed.</p>
+    <router-link to="/">Purchase Another Flight</router-link>
+    <router-link to="/myflights">See My Flights</router-link>
+  </div>
+  <div v-else-if="this.$root.$data.currentFlightBeingPurchased.length > 0">
+    <div class="flightDetails">
+        <h2><u>Flight details</u></h2>
+        <p><strong>Flight From: </strong>{{this.$root.$data.startingCity}}</p>
+        <p><strong>Flight To: </strong>{{this.$root.$data.currentFlightBeingPurchased[0].city}}</p>
+        <p> <strong>Departs at: </strong>{{computeTimeFromNow(this.$root.$data.currentFlightBeingPurchased[0].time_to_takeoff)}}</p>
+        <p><strong>Ticket Price: </strong>${{price()}}</p>
+        <div class="seat-type">
+          <p class="seat-type-text"><strong>Seat Type: </strong></p>
+          <div class="dropdown">
+            <button class="dropbtn">{{seatType}}</button>
+            <div class="dropdown-content">
+              <a @click=" seatType= 'Economy'">Economy</a>
+              <a @click=" seatType= 'First Class'">First Class</a>
+            </div>
           </div>
         </div>
-      </div>
-      <br/>
-  </div>
-  <h2><u>Personal Information</u></h2>
-  <h3>Before purchasing your flight to {{this.$root.$data.currentFlightBeingPurchased[0].city}} we need just a bit more information about you.</h3>
-  <form>
-    <div class="additional-information">
-      <input type="text" placeholder="First Name" v-model="firstName">
-      <input type="text" placeholder="Last Name">
-      <input type="text" placeholder="Email Address">
-      <input type="text" placeholder="Phone Number">
+        <br/>
     </div>
-  </form>
-   <router-link to="/myflights">
-        <button class="purchase-button" @click="addFlight">Purchase Flight</button>
-      </router-link>
+    <h2><u>Personal Information</u></h2>
+    <h3>Before purchasing your flight to {{this.$root.$data.currentFlightBeingPurchased[0].city}} we need just a bit more information about you.</h3>
+    <form>
+      <div class="additional-information">
+        <input type="text" placeholder="First Name" v-model="firstName">
+        <input type="text" placeholder="Last Name">
+        <input type="text" placeholder="Email Address">
+        <input type="text" placeholder="Phone Number">
+      </div>
+    </form>
+    <button class="purchase-button" @click.prevent="addFlight">Purchase Flight</button>
+    <!-- <router-link to="/myflights">
+          <button class="purchase-button" @click="addFlight">Purchase Flight</button>
+        </router-link> -->
+  </div>
+  <div v-else>
+    <p>Looks like you didn't select a destination. Go back to the home page and select a destination.</p>
+  </div>
 </div>
 </template>
 
 
 <script>
 var moment = require('moment');
-
+var axios = require('axios');
 export default {
   name: 'BuyFlight',
   data() {
     return {
       firstName: "",
       seatType: "Economy",
+      purchaseInProcess: false,
+      purchaseComplete: false,
+      purchaseError: "",
     }
   },
   computed: {
@@ -51,13 +73,37 @@ export default {
   },
   methods: {
     addFlight() {
-      this.$root.$data.currentFlightBeingPurchased[0].seatType = this.seatType;
-      this.$root.$data.currentFlightBeingPurchased[0].pricePaid = this.price();
-      this.$root.$data.myFlights.push(this.$root.$data.currentFlightBeingPurchased[0]);
-      this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
+      let currFlight = this.$root.$data.currentFlightBeingPurchased[0];
+
+      currFlight.seatType = this.seatType;
+      currFlight.pricePaid = this.price();
+      this.$root.$data.myFlights.push(currFlight);
       if (this.firstName !== ""){
         this.$root.$data.username = this.firstName;
       }
+      //
+      let ticketBody = {
+        name: this.firstName,
+				price: this.price(),
+				seatType: this.seatType,
+        departure: "(unknown)", // TO DO , I'll fix this later.
+        destination: currFlight.city,
+				// time_of_departure: req.body.time_of_departure
+      };
+      
+      axios.post("/api/purchaseticket", ticketBody).then((res) => {
+        this.purchaseInProcess = false;
+        if (res.status == 200) {
+          this.purchaseComplete = true;
+          // purchaseError = "";
+        }
+        else {
+          this.purchaseError = res.data;
+        }
+      });
+
+      
+      this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
     },
 		computeTimeFromNow(time) {
 			let t = moment();
