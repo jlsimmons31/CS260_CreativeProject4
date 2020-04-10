@@ -26,10 +26,20 @@
 
 <script>	
 var moment = require('moment');
+var axios = require('axios');
 
 export default {
     name: 'Cart',
+	created() {
+		getTickets();
+	},
+
     methods: {
+		async getTickets() {
+			axios.get("/api/purchasedtickets/" + this.userName).then(res, => {
+				this.$root.$data.myFlights = res.data;
+			});
+		},
 		removeFromCart(product) {
 			for (let i = 0; i < this.$root.$data.cart.length; i++) {
 				if (this.$root.$data.cart[i].id == product.id) {
