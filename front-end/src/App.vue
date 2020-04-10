@@ -8,9 +8,10 @@
         </div>
       </router-link> -->
       <div class="my-account">
-        <p class="name-text"><strong>Welcome {{this.$root.$data.username}}!</strong></p>
+        <p class="name-text"><strong>Welcome {{this.$root.$data.currentCustomer.first}}!</strong></p>
         <router-link to="/">Home</router-link>&nbsp;&#8226;&nbsp;
-        <router-link to="/myflights">My Flights</router-link>
+        <router-link to="/myflights">My Flights</router-link>&nbsp;&#8226;&nbsp;
+        <router-link to="/myaccount">My Account</router-link>
         <!-- <router-link to="/myflights">
           <div class="menu-item">
             <p> My Flights</p>

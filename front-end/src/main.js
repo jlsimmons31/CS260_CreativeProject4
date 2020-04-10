@@ -9,9 +9,18 @@ let data = {
   flights: mock,
   currentFlightBeingPurchased: [],
   myFlights: [],
-  username: "Guest",
+  // username: "Guest",
   startingCity: "",
   seatType: "",
+  currentCustomer: {
+    first: "Guest",
+    last: "",
+    email: "",
+    phone: "",
+    fullName() {
+      return this.first + " " + this.last;
+    }
+  },
 }
 
 new Vue({

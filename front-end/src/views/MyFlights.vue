@@ -1,13 +1,17 @@
 <template>
 <div class="wrapper">
 	<h2>My Flights</h2>
-	<div class="my_flights_list" v-if="this.$root.$data.myFlights.length > 0">
+	<div v-if="loading" id="loadingDiv">
+		<img src="images/loading.gif" width=100px height=100px />
+		<p>Loading flights...</p>
+	</div>
+	<div class="my_flights_list" v-else-if="this.$root.$data.myFlights.length > 0">
 		<div class="my_flight" v-for="flight in this.$root.$data.myFlights" :key="flight.id">
 			<img id="my_flight_image" :src="'/images/flight_images/' + flight.image_id + '.jpg'">
 			<div class="my_flight_info">
 				<div id="my_flight_detail">
 					<p id="my_flight_city">{{flight.city}} - <span>{{flight.distance}} miles</span></p>
-					<p>{{flight.seatType}} (${{flightPrice(flight)}})</p>
+					<p>{{flight.seatType}} (${{flight.price}})</p>
 					<p>Departing {{computeTimeFromNow(flight.time_to_takeoff)}}</p>
 				</div>
 			</div>
@@ -29,13 +33,23 @@ var moment = require('moment');
 var axios = require('axios');
 
 export default {
-    name: 'Cart',
+	name: 'Cart',
+	data() {
+		return { 
+			loading: false
+		};
+	},
 	created() {
 		// getTickets();
-
-		axios.get("/api/purchasedtickets/" + this.$root.$data.username).then((res) => {
-				this.$root.$data.myFlights = res.data;
-			});
+		this.loading = true;
+		let req = axios.get("/api/purchasedtickets/" + this.$root.$data.currentCustomer.fullName());
+		req.then((res) => {
+			this.loading = false;
+			this.$root.$data.myFlights = res.data;
+		});
+		req.catch(() => {
+			this.loading = false;
+		});
 	},
     methods: {
 		// getTickets() {
@@ -77,6 +91,12 @@ export default {
 
 
 <style>
+
+	#loadingDiv {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
 	.wrapper {
 		text-align: center;

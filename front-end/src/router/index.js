@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import BuyFlight from '../views/BuyFlight.vue'
 import MyFlights from '../views/MyFlights.vue'
+import MyAccount from '../views/MyAccount.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/myflights',
     name: 'MyFlights',
     component: MyFlights
+  },
+  {
+    path: '/myaccount',
+    name: 'MyAccount',
+    component: MyAccount
   },
 ]
 
