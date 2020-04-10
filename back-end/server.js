@@ -90,8 +90,18 @@ app.delete("/api/cancelticket/:id", async(req, res) => {
 	}
 });
 
-app.put("/api/updateticket", async(req, res) => {
-
+app.put("/api/updateticket/:id", async(req, res) => {
+	try {
+	let t = await Ticket.findById(req.params["id"]);
+	t.price = req.body.price;
+	t.seatType = req.body.seatType;
+	await t.save();
+	res.sendStatus(200);
+	}
+	catch (err) {
+		console.log(err);
+		res.sendStatus(500);
+	}
 });
 
 app.get("/api/purchasedtickets/:userName", async(req, res) => {

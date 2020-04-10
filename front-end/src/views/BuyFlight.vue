@@ -125,7 +125,7 @@ export default {
         return this.$root.$data.currentFlightBeingPurchased[0].base_price.toFixed(2);
       else
         return this.$root.$data.currentFlightBeingPurchased[0].first_class_price.toFixed(2);
-    }
+      } 
   },
 }
 </script>

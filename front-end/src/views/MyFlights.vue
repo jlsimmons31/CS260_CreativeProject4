@@ -16,8 +16,8 @@
 				</div>
 			</div>
 			<div class="my_flight_actions">
-				<p v-if="flight.seatType === 'Economy'" class="linkBtn" @click="changeToFirstClass()">Change Seat to First Class</p>
-				<p v-else class="linkBtn" @click="changeToEconomy()">Change Seat to Economy</p>
+				<p v-if="flight.seatType === 'Economy'" class="linkBtn" @click="changeToFirstClass(flight)">Change Seat to First Class</p>
+				<p v-else class="linkBtn" @click="changeToEconomy(flight)">Change Seat to Economy</p>
 				<p class="linkBtn" @click="printTickets()">Print Boarding Pass</p>
 				<p class="linkBtn" @click="cancelFlight(flight)">Cancel Flight</p>
 			</div>
@@ -53,11 +53,25 @@ export default {
 		});
 	},
     methods: {	
-		changeToEconomy() {
+		changeToEconomy(flight) {
+			let newPrice = flight.base_price;
+			let newSeatType = "Economy";
 
+			let body = { price: newPrice, seatType: newSeatType };
+			axios.put("/api/updateticket/" + flight._id, body).then(res => {
+				flight.price = res.data.price;
+				flight.seatType = res.data.seatType;
+			});
 		},
-		changeToFirstClass() {
+		changeToFirstClass(flight) {
+			let newPrice = flight.first_class_price;
+			let newSeatType = "First Class";
 
+			let body = { price: newPrice, seatType: newSeatType };
+			axios.put("/api/updateticket/" + flight._id, body).then(res => {
+				flight.price = res.data.price;
+				flight.seatType = res.data.seatType;
+			});
 		},
 		computeTimeFromNow(time) {
 			let t = moment();
