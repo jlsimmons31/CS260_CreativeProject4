@@ -16,7 +16,8 @@
 				</div>
 			</div>
 			<div class="my_flight_actions">
-				<p class="linkBtn" @click="printTickets()">Change</p>
+				<p v-if="this.$root.$data.seatType === 'Economy'" class="linkBtn" @click="changeToFirstClass()">Change Seat to First Class</p>
+				<p v-else class="linkBtn" @click="changeToEconomy()">Change Seat to Economy</p>
 				<p class="linkBtn" @click="printTickets()">Print Boarding Pass</p>
 				<p class="linkBtn" @click="cancelFlight(flight)">Cancel Flight</p>
 			</div>
@@ -34,14 +35,13 @@ var moment = require('moment');
 var axios = require('axios');
 
 export default {
-	name: 'Cart',
+	name: 'MyFlights',
 	data() {
 		return { 
 			loading: false
 		};
 	},
 	created() {
-		// getTickets();
 		this.loading = true;
 		let req = axios.get("/api/purchasedtickets/" + this.$root.$data.currentCustomer.fullName());
 		req.then((res) => {
@@ -52,10 +52,13 @@ export default {
 			this.loading = false;
 		});
 	},
-    methods: {
-		// getTickets() {
-			
-		// },		
+    methods: {	
+		changeToEconomy() {
+
+		},
+		changeToFirstClass() {
+
+		},
 		computeTimeFromNow(time) {
 			let t = moment();
 			t.add(time, 'hours');
