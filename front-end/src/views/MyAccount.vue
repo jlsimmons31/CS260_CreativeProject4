@@ -44,6 +44,8 @@ export default {
 		req.then((res) => {
 			this.loading = false;
 			this.currentCustomer = res.data;
+			// res.data.first;
+			// this.currentCustomer.first = "test";
 		});
 		req.catch(() => {
 			this.loading = false;
