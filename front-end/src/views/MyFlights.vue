@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="my_flight_actions">
-				<p v-if="this.$root.$data.seatType === 'Economy'" class="linkBtn" @click="changeToFirstClass()">Change Seat to First Class</p>
+				<p v-if="flight.seatType === 'Economy'" class="linkBtn" @click="changeToFirstClass()">Change Seat to First Class</p>
 				<p v-else class="linkBtn" @click="changeToEconomy()">Change Seat to Economy</p>
 				<p class="linkBtn" @click="printTickets()">Print Boarding Pass</p>
 				<p class="linkBtn" @click="cancelFlight(flight)">Cancel Flight</p>
