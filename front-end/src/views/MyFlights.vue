@@ -16,6 +16,7 @@
 				</div>
 			</div>
 			<div class="my_flight_actions">
+				<p class="linkBtn" @click="printTickets()">Change</p>
 				<p class="linkBtn" @click="printTickets()">Print Boarding Pass</p>
 				<p class="linkBtn" @click="cancelFlight(flight)">Cancel Flight</p>
 			</div>
