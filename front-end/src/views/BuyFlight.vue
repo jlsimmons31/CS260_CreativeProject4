@@ -36,10 +36,10 @@
     <h3>Before purchasing your flight to {{this.$root.$data.currentFlightBeingPurchased[0].city}} we need just a bit more information about you.</h3>
     <form>
       <div class="additional-information">
-        <input type="text" placeholder="First Name" v-model="firstName">
-        <input type="text" placeholder="Last Name">
-        <input type="text" placeholder="Email Address">
-        <input type="text" placeholder="Phone Number">
+        <input type="text" placeholder="First Name" v-model="currentCustomer.first">
+        <input type="text" placeholder="Last Name" v-model="currentCustomer.last">
+        <input type="text" placeholder="Email Address" v-model="currentCustomer.email">
+        <input type="text" placeholder="Phone Number" v-model="currentCustomer.phone">
       </div>
     </form>
     <button class="purchase-button" @click.prevent="addFlight">Purchase Flight</button>
@@ -65,11 +65,16 @@ export default {
       seatType: "Economy",
       purchaseInProcess: false,
       purchaseComplete: false,
-      purchaseError: "",
+      purchaseError: "",      
+      currentCustomer: { }
+
     }
   },
   computed: {
     
+  },
+  created() {
+    this.currentCustomer = this.$root.$data.currentCustomer;
   },
   methods: {
     addFlight() {
@@ -77,13 +82,15 @@ export default {
 
       currFlight.seatType = this.seatType;
       currFlight.pricePaid = this.price();
-      this.$root.$data.myFlights.push(currFlight);
-      if (this.firstName !== ""){
-        this.$root.$data.username = this.firstName;
-      }
+      // this.$root.$data.myFlights.push(currFlight);
+      // if (this.firstName !== ""){
+      //   this.$root.$data.username = this.firstName;
+      // }
       //
+      this.$root.$data.currentCustomer = this.currentCustomer;
+      let customerName = this.currentCustomer.fullName();
       let ticketBody = {
-        name: this.firstName,
+        name: customerName,
 				price: this.price(),
 				seatType: this.seatType,
         departure: this.$root.$data.startingCity, 
@@ -98,6 +105,7 @@ export default {
         this.purchaseInProcess = false;
         if (res.status == 200) {
           this.purchaseComplete = true;
+          this.$root.$data.currentFlightBeingPurchased.length = 0;
           // purchaseError = "";
         }
         else {
@@ -106,7 +114,6 @@ export default {
       });
 
       
-      this.$root.$data.currentFlightBeingPurchased.splice(0, 1);
     },
 		computeTimeFromNow(time) {
 			let t = moment();

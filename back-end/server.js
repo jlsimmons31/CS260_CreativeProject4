@@ -17,22 +17,23 @@ const mongoose = require('mongoose');
 const ticketSchema = new mongoose.Schema({
 	// Possibly save _id of person purchasing ticket?
 	name: String,
-	price: Number,
+	price: String,
 	seatType: String,
 	departure: String,
 	city: String,
 	distance: Number,
-	// duration_hrs: Number,
 	image_id: String,
 	time_to_takeoff: Number,
   });
 const Ticket = mongoose.model('PurchasedTickets', ticketSchema);
 
 const customerSchema = new mongoose.Schema({
-	first_name: String,
-	last_name: String,
-
-	// To-Do: Add whatever other customer information
+	first: String,
+	last: String,
+	email: String,
+	phone: String,
+	full_name: String,
+	
   });
 const Customer = mongoose.model('Customers', customerSchema);
 
@@ -97,7 +98,13 @@ app.get("/api/purchasedtickets/:userName", async(req, res) => {
 	try {
 		let userName = req.params.userName;
 		let tickets = await Ticket.find({ name: userName });
-		res.send(tickets);
+		if (tickets.length > 0) {
+			res.send(tickets);
+		}
+		else {
+			res.status(400).send("No tickets found for user: " + userName);
+		}
+		
 	}
 	catch (err) {
 		console.log(err);
@@ -107,5 +114,55 @@ app.get("/api/purchasedtickets/:userName", async(req, res) => {
 
 
 
+
+//Customer info
+
+app.get("/api/customer/:name", async(req, res) => {
+	try {
+		let cust_name = req.params.name;
+		let c = await Customer.find({ full_name: cust_name });
+		if (c)
+			res.send(c);
+		else
+			res.status(400).send("Could not find customer");
+	}
+	catch (err) {
+		console.log(err);
+		res.sendStatus(500);
+	}
+});
+app.put("/api/customer/:name", async(req, res) => {
+	try {
+		if (req.body.first && req.body.last) {
+				let c = await Customer.find({ full_name: cust_name });
+			if (c) {
+				if (req.body.phone)
+					c.phone = req.body.phone;
+				if (req.body.email)
+					c.email = req.body.email;
+			}
+			else {
+				c = new Customer( {
+					first: req.body.first,
+					last: req.body.last,
+					email: req.body.email,
+					phone: req.body.phone,
+					full_name: req.body.first + " " + req.body.last,
+				});
+			}
+			await c.save();
+			res.sendStatus(200);
+		}
+		else {
+			res.status(400).send("Missing first or last name");
+		}
+	}
+	catch (err) {
+		console.log(err);
+		res.sendStatus(500);
+	}
+});
+
+//
 
 app.listen(3000, () => console.log("Sever running on port 3000..."));
