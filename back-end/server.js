@@ -120,7 +120,7 @@ app.get("/api/purchasedtickets/:userName", async(req, res) => {
 app.get("/api/customer/:name", async(req, res) => {
 	try {
 		let cust_name = req.params.name;
-		let c = await Customer.find({ full_name: cust_name });
+		let c = (await Customer.find({ full_name: cust_name }))[0];
 		if (c)
 			res.send(c);
 		else
@@ -142,6 +142,7 @@ app.put("/api/customer/:name", async(req, res) => {
 				if (req.body.email)
 					c.email = req.body.email;
 				await c.save();
+				res.send(c);
 			}
 			else {
 				let c = new Customer( {
@@ -152,8 +153,8 @@ app.put("/api/customer/:name", async(req, res) => {
 					full_name: req.body.first + " " + req.body.last,
 				});
 				await c.save();
+				res.send(c);
 			}
-			res.sendStatus(200);
 		}
 		else {
 			res.status(400).send("Missing first or last name");

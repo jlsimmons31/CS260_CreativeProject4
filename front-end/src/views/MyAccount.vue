@@ -7,13 +7,14 @@
   <div v-else class="account-info">
     <h2><u>My Account</u></h2>
     <h3>Manage your personal information.</h3>
+	<h5><i>Flights are tracked by name, so if you don't see your previous flights, make sure you've entered your name correctly</i></h5>
 	<div class="additional-information">
 		<input type="text" placeholder="First Name" v-model="currentCustomer.first">
 		<input type="text" placeholder="Last Name" v-model="currentCustomer.last">
 		<input type="text" placeholder="Email Address" v-model="currentCustomer.email">
 		<input type="text" placeholder="Phone Number" v-model="currentCustomer.phone">
 	</div>
-    <button class="save-button" @click.prevent="updateCustomerInfo()">Save</button>
+    <button class="save-button" @click="updateCustomerInfo()">Save</button>
   </div>
   <h4 v-if="saved"><i>Your data has been saved.</i></h4>
 </div>
@@ -45,7 +46,9 @@ export default {
 			this.loading = false;
 			this.currentCustomer = res.data;
 			// res.data.first;
-			// this.currentCustomer.first = "test";
+			// this.currentCustomer.first = res.data.first;
+			// this.currentCustomer.last = res.data.last;
+			// if
 		});
 		req.catch(() => {
 			this.loading = false;
@@ -56,15 +59,16 @@ export default {
 	updateCustomerInfo() {
 		this.$root.$data.currentCustomer = this.currentCustomer;
 		this.loading = true;
+		this.saved = false;
 		let req = axios.put("/api/customer/" + this.currentCustomer.fullName(), this.currentCustomer);
-		req.then(() => {
+		req.then((res) => {
 			this.loading = false;
 			this.saved = true;
+			this.currentCustomer = res.data;
 		});
-		req.catch((err) => {
+		req.catch(() => {
 			this.loading = false;
 			this.saved = false;
-			alert(err.data);
 		});
 	}
 }

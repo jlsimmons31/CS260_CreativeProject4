@@ -50,6 +50,7 @@ export default {
 		});
 		req.catch(() => {
 			this.loading = false;
+			this.$root.$data.myFlights.length = 0;
 		});
 	},
     methods: {	
