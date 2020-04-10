@@ -115,8 +115,8 @@ export default {
 						this.$root.$data.myFlights.length = 0;
 					});
 				} 
-				catch (error) {
-					console.log(error);
+				catch {
+					// console.log(error);
 				}
 			}
 		},

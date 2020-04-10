@@ -47,8 +47,8 @@ export default {
   },
   created() {
 	this.currentCustomer = this.$root.$data.currentCustomer;
-	if (!this.currentCustomer.first) { console.log("No first"); } // missing first name
-	else if (this.currentCustomer.email || this.currentCustomer.phone) { console.log("Valid email or phone"); } // has valid email or phone
+	if (!this.currentCustomer.first) { true; } // missing first name
+	else if (this.currentCustomer.email || this.currentCustomer.phone) { true; } // has valid email or phone
 	// in all above cases, we would not fetch customer info.
 	else {
     this.loading = true;

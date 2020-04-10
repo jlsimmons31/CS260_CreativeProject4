@@ -123,7 +123,7 @@ export default {
       //   : this.currentCustomer.first;
       let req = axios.put("/api/customer/" + fullName, this.currentCustomer);
       req.then(() => {
-        console.log("updated customer data");
+        // console.log("updated customer data");
       });
       
     },
