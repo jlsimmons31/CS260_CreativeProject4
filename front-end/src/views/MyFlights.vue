@@ -11,7 +11,7 @@
 			<div class="my_flight_info">
 				<div id="my_flight_detail"> 
 					<p id="my_flight_city">{{flight.city}} - <span>{{flight.distance}} miles</span></p>
-					<p>{{flight.seatType}} (${{flight.price}})</p>
+					<p>{{flight.seatType}} (${{flight.price.toFixed(2)}})</p>
 					<p>Departing {{computeTimeFromNow(flight.time_to_takeoff)}}</p>
 				</div>
 			</div>
