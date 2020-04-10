@@ -134,23 +134,25 @@ app.get("/api/customer/:name", async(req, res) => {
 app.put("/api/customer/:name", async(req, res) => {
 	try {
 		if (req.body.first && req.body.last) {
-				let c = await Customer.find({ full_name: cust_name });
+			let cust_name = req.params.name;
+			let c = (await Customer.find({ full_name: cust_name }))[0];
 			if (c) {
 				if (req.body.phone)
 					c.phone = req.body.phone;
 				if (req.body.email)
 					c.email = req.body.email;
+				await c.save();
 			}
 			else {
-				c = new Customer( {
+				let c = new Customer( {
 					first: req.body.first,
 					last: req.body.last,
 					email: req.body.email,
 					phone: req.body.phone,
 					full_name: req.body.first + " " + req.body.last,
 				});
+				await c.save();
 			}
-			await c.save();
 			res.sendStatus(200);
 		}
 		else {
