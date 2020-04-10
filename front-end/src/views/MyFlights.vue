@@ -26,6 +26,7 @@
 	<div v-else>
 		<!-- <h2>My Flights</h2> -->
 		<h3>You have not purchased any flights.</h3>
+		<div style="margin-bottom: 480px" />
 	</div>
 </div>
 </template>
