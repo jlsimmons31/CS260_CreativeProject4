@@ -84,8 +84,16 @@ app.put("/api/updateticket", async(req, res) => {
 
 });
 
-app.get("/api/purchasedtickets", async(req, res) => {
-	
+app.get("/api/purchasedtickets/:userName", async(req, res) => {
+	try {
+		let userName = req.params.userName;
+		let tickets = await Ticket.find({ name: userName });
+		res.send(tickets);
+	}
+	catch (err) {
+		console.log(err);
+		res.sendStatus(500);
+	}
 });
 
 
