@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-	next();
-  });
+// app.use(function(req, res, next) {
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+// 	next();
+//   });
 
 const mongoose = require('mongoose');
 
@@ -52,8 +52,11 @@ function notNullOrEmpty(strs) {
 app.post("/api/purchaseticket", async(req, res) => {
 	try {
 		if (notNullOrEmpty([req.body.name, req.body.city])) {
+			let name1 = req.body.name;
+			while (name1[name1.length - 1] == ' ')
+				name1 = name1.substring(0, name1.length - 1);
 			let t = new Ticket({
-				name: req.body.name,
+				name: name1,
 				price: req.body.price,
 				seatType: req.body.seatType,
 				departure: req.body.departure,
@@ -164,7 +167,7 @@ app.put("/api/customer/:name", async(req, res) => {
 					last: req.body.last,
 					email: req.body.email,
 					phone: req.body.phone,
-					full_name: req.body.first + " " + req.body.last,
+					full_name: req.body.last ? req.body.first + " " + req.body.last : req.body.first,
 				});
 				await c.save();
 				res.send(c);

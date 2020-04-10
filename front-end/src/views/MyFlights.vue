@@ -11,7 +11,7 @@
 			<div class="my_flight_info">
 				<div id="my_flight_detail"> 
 					<p id="my_flight_city">{{flight.city}} - <span>{{flight.distance}} miles</span></p>
-					<p>{{flight.seatType}} (${{flight.price.toFixed(2)}})</p>
+					<p>{{flight.seatType}} (${{Number(flight.price).toFixed(2)}})</p>
 					<p>Departing {{computeTimeFromNow(flight.time_to_takeoff)}}</p>
 				</div>
 			</div>
@@ -43,7 +43,10 @@ export default {
 	},
 	created() {
 		this.loading = true;
-		let req = axios.get("/api/purchasedtickets/" + this.$root.$data.currentCustomer.fullName());
+		let cust = this.$root.$data.currentCustomer;
+		var fullName = cust.last ? cust.first + " " + cust.last
+        : cust.first;
+		let req = axios.get("/api/purchasedtickets/" + fullName);
 		req.then((res) => {
 			this.loading = false;
 			this.$root.$data.myFlights = res.data;
@@ -55,6 +58,7 @@ export default {
 	},
     methods: {	
 		changeToEconomy(flight) {
+			this.loading = true;
 			let newPrice = flight.base_price;
 			let newSeatType = "Economy";
 
@@ -65,9 +69,11 @@ export default {
 				
 				flight.price = newPrice;
 				flight.seatType = newSeatType;
+				this.loading = false;
 			});
 		},
 		changeToFirstClass(flight) {
+			this.loading = true;
 			let newPrice = flight.first_class_price;
 			let newSeatType = "First Class";
 
@@ -78,6 +84,7 @@ export default {
 
 				flight.price = newPrice;
 				flight.seatType = newSeatType;
+				this.loading = false;
 			});
 		},
 		computeTimeFromNow(time) {
@@ -92,10 +99,20 @@ export default {
 			if (confirm("Are you sure you want to cancel your purchase?")) {
 				try {
 					axios.delete("/api/cancelticket/" + flight._id);
-					axios.get("/api/purchasedtickets/" + this.$root.$data.username).then((res) => {
+					//
+					this.loading = true;
+					let cust = this.$root.$data.currentCustomer;
+					var fullName = cust.last ? cust.first + " " + cust.last
+						: cust.first;
+					let req = axios.get("/api/purchasedtickets/" + fullName);
+					req.then((res) => {
+						this.loading = false;
 						this.$root.$data.myFlights = res.data;
 					});
-					return true;
+					req.catch(() => {
+						this.loading = false;
+						this.$root.$data.myFlights.length = 0;
+					});
 				} 
 				catch (error) {
 					console.log(error);

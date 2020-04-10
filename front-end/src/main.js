@@ -17,9 +17,10 @@ let data = {
     last: "",
     email: "",
     phone: "",
-    fullName() {
-      return this.first + " " + this.last;
-    }
+    // fullName() {
+    //   return this.last ? this.first + " " + this.last
+    //     : this.first;
+    // }
   },
 }
 

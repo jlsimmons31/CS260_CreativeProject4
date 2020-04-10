@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="wrapper1">
   <div v-if="purchaseInProcess && !purchaseComplete">
     <img src="images/loading.gif" width=100px height=100px />
     <p></p>
@@ -91,7 +91,9 @@ export default {
       // }
       //
       this.$root.$data.currentCustomer = this.currentCustomer;
-      let customerName = this.currentCustomer.fullName();
+      var fullName = this.currentCustomer.last ? this.currentCustomer.first + " " + this.currentCustomer.last
+        : this.currentCustomer.first;
+      let customerName = fullName;
       let ticketBody = {
         name: customerName,
 				price: this.price(),
@@ -117,7 +119,9 @@ export default {
           this.purchaseError = res.data;
         }
       });
-      let req = axios.put("/api/customer/" + this.currentCustomer.fullName(), this.currentCustomer);
+      // var fullName = this.currentCustomer.last ? this.currentCustomer.first + " " + this.currentCustomer.last
+      //   : this.currentCustomer.first;
+      let req = axios.put("/api/customer/" + fullName, this.currentCustomer);
       req.then(() => {
         console.log("updated customer data");
       });
@@ -140,6 +144,11 @@ export default {
 
 
 <style scoped>
+
+.wrapper1 {
+  margin-left: 24px;
+}
+
 .seat-type {
 display: flex;
 }

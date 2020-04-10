@@ -28,7 +28,19 @@ export default {
   name: 'MyAccount',
   data() {
     return {
-		currentCustomer: { },
+		// currentCustomer: {      
+    //   first: "Guest",
+    //   last: "",
+    //   email: "",
+    //   phone: "",
+    //   fullName() {
+    //     return this.last ? this.first + " " + this.last
+    //       : this.first;
+    //   }
+    //  },
+    currentCustomer: {
+
+    },
 		loading: false,
 		saved: false,
     }
@@ -39,15 +51,14 @@ export default {
 	else if (this.currentCustomer.email || this.currentCustomer.phone) { console.log("Valid email or phone"); } // has valid email or phone
 	// in all above cases, we would not fetch customer info.
 	else {
-		this.loading = true;
-		let req = axios.get("/api/customer/" + this.currentCustomer.fullName());
+    this.loading = true;
+    var fullName = this.currentCustomer.last ? this.currentCustomer.first + " " + this.currentCustomer.last
+        : this.currentCustomer.first;
+		let req = axios.get("/api/customer/" + fullName);
 		req.then((res) => {
 			this.loading = false;
 			this.currentCustomer = res.data;
-			// res.data.first;
-			// this.currentCustomer.first = res.data.first;
-			// this.currentCustomer.last = res.data.last;
-			// if
+      this.$root.$data.currentCustomer = this.currentCustomer;
 		});
 		req.catch(() => {
 			this.loading = false;
@@ -55,22 +66,25 @@ export default {
 	}
   },
   methods: {
-	updateCustomerInfo() {
-		this.$root.$data.currentCustomer = this.currentCustomer;
-		this.loading = true;
-		this.saved = false;
-		let req = axios.put("/api/customer/" + this.currentCustomer.fullName(), this.currentCustomer);
-		req.then((res) => {
-			this.loading = false;
-			this.saved = true;
-			this.currentCustomer = res.data;
-		});
-		req.catch(() => {
-			this.loading = false;
-			this.saved = false;
-		});
-	}
-}
+    async updateCustomerInfo() {
+      this.$root.$data.currentCustomer = this.currentCustomer;
+      this.loading = true;
+      this.saved = false;
+      var fullName = this.currentCustomer.last ? this.currentCustomer.first + " " + this.currentCustomer.last
+        : this.currentCustomer.first;
+      let req = axios.put("/api/customer/" + fullName, this.currentCustomer);
+      req.then((res) => {
+        this.loading = false;
+        this.saved = true;
+        this.currentCustomer = res.data;
+        this.$root.$data.currentCustomer = this.currentCustomer;        
+      });
+      req.catch(() => {
+        this.loading = false;
+        this.saved = false;
+      });
+    }
+  }
 }
 </script>
 
