@@ -20,8 +20,11 @@ const ticketSchema = new mongoose.Schema({
 	price: Number,
 	seatType: String,
 	departure: String,
-	destination: String,
-	time_of_departure: Date
+	city: String,
+	distance: Number,
+	// duration_hrs: Number,
+	image_id: String,
+	time_to_takeoff: Number,
   });
 const Ticket = mongoose.model('PurchasedTickets', ticketSchema);
 
@@ -45,14 +48,20 @@ function notNullOrEmpty(strs) {
 
 app.post("/api/purchaseticket", async(req, res) => {
 	try {
-		if (notNullOrEmpty([req.body.name, req.body.price, req.body.departure, req.body.destination])) {
+		if (notNullOrEmpty([req.body.name, req.body.city])) {
 			let t = new Ticket({
 				name: req.body.name,
 				price: req.body.price,
 				seatType: req.body.seatType,
 				departure: req.body.departure,
-				destination: req.body.destination,
-				time_of_departure: req.body.time_of_departure
+				city: req.body.city,
+				distance: req.body.distance,
+				// duration_hrs: req.body.duration_hrs,
+				image_id: req.body.image_id,
+				time_to_takeoff: req.body.time_to_takeoff,
+				
+				// first_class_price: req.body.first_class_price,
+				// base_price: req.body.base_price,
 			});
 			await t.save();
 			res.sendStatus(200);

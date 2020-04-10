@@ -31,15 +31,16 @@ var axios = require('axios');
 export default {
     name: 'Cart',
 	created() {
-		getTickets();
-	},
+		// getTickets();
 
-    methods: {
-		async getTickets() {
-			axios.get("/api/purchasedtickets/" + this.userName).then(res, => {
+		axios.get("/api/purchasedtickets/" + this.$root.$data.username).then((res) => {
 				this.$root.$data.myFlights = res.data;
 			});
-		},
+	},
+    methods: {
+		// getTickets() {
+			
+		// },
 		removeFromCart(product) {
 			for (let i = 0; i < this.$root.$data.cart.length; i++) {
 				if (this.$root.$data.cart[i].id == product.id) {

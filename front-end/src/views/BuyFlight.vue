@@ -86,9 +86,12 @@ export default {
         name: this.firstName,
 				price: this.price(),
 				seatType: this.seatType,
-        departure: "(unknown)", // TO DO , I'll fix this later.
-        destination: currFlight.city,
-				// time_of_departure: req.body.time_of_departure
+        departure: this.$root.$data.startingCity, 
+        city: currFlight.city,
+				distance: currFlight.distance,
+				// duration_hrs: currFlight.duration_hrs,
+				image_id: currFlight.image_id,
+				time_to_takeoff: currFlight.time_to_takeoff,
       };
       
       axios.post("/api/purchaseticket", ticketBody).then((res) => {
