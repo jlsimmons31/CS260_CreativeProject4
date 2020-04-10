@@ -101,7 +101,9 @@ export default {
 				distance: currFlight.distance,
 				// duration_hrs: currFlight.duration_hrs,
 				image_id: currFlight.image_id,
-				time_to_takeoff: currFlight.time_to_takeoff,
+        time_to_takeoff: currFlight.time_to_takeoff,
+        first_class_price: currFlight.first_class_price,
+        base_price: currFlight.base_price,
       };
       
       axios.post("/api/purchaseticket", ticketBody).then((res) => {

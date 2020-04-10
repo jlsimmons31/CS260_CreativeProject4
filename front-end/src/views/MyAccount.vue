@@ -35,8 +35,7 @@ export default {
   },
   created() {
 	this.currentCustomer = this.$root.$data.currentCustomer;
-	if (this.currentCustomer.first == "Guest" && !this.currentCustomer.last) { console.log("Guest only"); } // still guest.
-	else if (!this.currentCustomer.first) { console.log("No first"); } // missing first name
+	if (!this.currentCustomer.first) { console.log("No first"); } // missing first name
 	else if (this.currentCustomer.email || this.currentCustomer.phone) { console.log("Valid email or phone"); } // has valid email or phone
 	// in all above cases, we would not fetch customer info.
 	else {

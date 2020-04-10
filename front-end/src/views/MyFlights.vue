@@ -59,9 +59,12 @@ export default {
 			let newSeatType = "Economy";
 
 			let body = { price: newPrice, seatType: newSeatType };
-			axios.put("/api/updateticket/" + flight._id, body).then(res => {
-				flight.price = res.data.price;
-				flight.seatType = res.data.seatType;
+			axios.put("/api/updateticket/" + flight._id, body).then(() => {
+				// flight.price = res.data.price;
+				// flight.seatType = res.data.seatType;
+				
+				flight.price = newPrice;
+				flight.seatType = newSeatType;
 			});
 		},
 		changeToFirstClass(flight) {
@@ -69,9 +72,12 @@ export default {
 			let newSeatType = "First Class";
 
 			let body = { price: newPrice, seatType: newSeatType };
-			axios.put("/api/updateticket/" + flight._id, body).then(res => {
-				flight.price = res.data.price;
-				flight.seatType = res.data.seatType;
+			axios.put("/api/updateticket/" + flight._id, body).then(() => {
+				// flight.price = res.data.price;
+				// flight.seatType = res.data.seatType;
+
+				flight.price = newPrice;
+				flight.seatType = newSeatType;
 			});
 		},
 		computeTimeFromNow(time) {
