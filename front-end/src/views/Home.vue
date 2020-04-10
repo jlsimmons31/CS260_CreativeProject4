@@ -28,6 +28,7 @@
           <div v-show="filteredResults.length === 0">
             <p v-if="this.citySearch.length > 0">No results found. Try another city.</p>
             <p v-else>Begin typing a destination city to see available flights.</p>
+            <div style="margin-bottom: 460px"/>
           </div>
           <div v-for="flight in filteredResults" :key="flight.id">
             <router-link to="/BuyFlight">
