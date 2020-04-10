@@ -9,7 +9,7 @@
 		<div class="my_flight" v-for="flight in this.$root.$data.myFlights" :key="flight.id">
 			<img id="my_flight_image" :src="'/images/flight_images/' + flight.image_id + '.jpg'">
 			<div class="my_flight_info">
-				<div id="my_flight_detail">
+				<div id="my_flight_detail"> 
 					<p id="my_flight_city">{{flight.city}} - <span>{{flight.distance}} miles</span></p>
 					<p>{{flight.seatType}} (${{flight.price}})</p>
 					<p>Departing {{computeTimeFromNow(flight.time_to_takeoff)}}</p>
