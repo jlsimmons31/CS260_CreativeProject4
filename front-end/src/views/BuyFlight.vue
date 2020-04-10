@@ -78,6 +78,9 @@ export default {
   },
   methods: {
     addFlight() {
+      this.purchaseInProcess = true;
+      this.purchaseComplete = false;
+
       let currFlight = this.$root.$data.currentFlightBeingPurchased[0];
 
       currFlight.seatType = this.seatType;
@@ -112,7 +115,10 @@ export default {
           this.purchaseError = res.data;
         }
       });
-
+      let req = axios.put("/api/customer/" + this.currentCustomer.fullName(), this.currentCustomer);
+      req.then(() => {
+        console.log("updated customer data");
+      });
       
     },
 		computeTimeFromNow(time) {
