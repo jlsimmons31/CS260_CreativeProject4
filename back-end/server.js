@@ -147,7 +147,7 @@ app.get("/api/customer/:name", async(req, res) => {
 });
 app.put("/api/customer/:name", async(req, res) => {
 	try {
-		if (req.body.first && req.body.last) {
+		if (req.body.first) {
 			let cust_name = req.params.name;
 			let c = (await Customer.find({ full_name: cust_name }))[0];
 			if (c) {
