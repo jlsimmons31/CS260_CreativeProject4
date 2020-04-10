@@ -24,6 +24,8 @@ const ticketSchema = new mongoose.Schema({
 	distance: Number,
 	image_id: String,
 	time_to_takeoff: Number,
+	first_class_price: Number,
+	base_price: Number,
   });
 const Ticket = mongoose.model('PurchasedTickets', ticketSchema);
 
@@ -60,6 +62,8 @@ app.post("/api/purchaseticket", async(req, res) => {
 				// duration_hrs: req.body.duration_hrs,
 				image_id: req.body.image_id,
 				time_to_takeoff: req.body.time_to_takeoff,
+				first_class_price: req.body.first_class_price,
+				base_price: req.body.base_price,
 				
 				// first_class_price: req.body.first_class_price,
 				// base_price: req.body.base_price,
