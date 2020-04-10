@@ -40,15 +40,7 @@ export default {
     methods: {
 		// getTickets() {
 			
-		// },
-		removeFromCart(product) {
-			for (let i = 0; i < this.$root.$data.cart.length; i++) {
-				if (this.$root.$data.cart[i].id == product.id) {
-					this.$root.$data.cart.splice(i, 1);
-					break;
-				}
-			}
-		},		
+		// },		
 		computeTimeFromNow(time) {
 			let t = moment();
 			t.add(time, 'hours');
@@ -58,13 +50,16 @@ export default {
 			return flight.pricePaid;
 		},
 		cancelFlight(flight) {
-			if (confirm("Are you sure you want to cancel your purchase?"))
-			{
-				for (let i = 0; i < this.$root.$data.myFlights.length; i++) {
-					if (this.$root.$data.myFlights[i].id == flight.id) {
-						this.$root.$data.myFlights.splice(i, 1);
-						break;
-					}	
+			if (confirm("Are you sure you want to cancel your purchase?")) {
+				try {
+					axios.delete("/api/cancelticket/" + flight._id);
+					axios.get("/api/purchasedtickets/" + this.$root.$data.username).then((res) => {
+						this.$root.$data.myFlights = res.data;
+					});
+					return true;
+				} 
+				catch (error) {
+					console.log(error);
 				}
 			}
 		},
