@@ -95,10 +95,10 @@ export default {
 		flightPrice(flight) {
 			return flight.pricePaid;
 		},
-		cancelFlight(flight) {
+		async cancelFlight(flight) {
 			if (confirm("Are you sure you want to cancel your purchase?")) {
 				try {
-					axios.delete("/api/cancelticket/" + flight._id);
+					await axios.delete("/api/cancelticket/" + flight._id);
 					//
 					this.loading = true;
 					let cust = this.$root.$data.currentCustomer;
